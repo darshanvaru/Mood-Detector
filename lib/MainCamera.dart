@@ -29,7 +29,9 @@ class _MainCameraState extends State<MainCamera> {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: photoClicked()
+            child: SizedBox(
+              height: 200,
+                child: photoClicked())
           ),
         ],
       ),
@@ -48,7 +50,7 @@ class _MainCameraState extends State<MainCamera> {
               icon: const Icon(Icons.replay, size: 40),
             ),
           ),
-          SizedBox(width: 180, height: 70),
+          SizedBox(width: 180),
           Tooltip(
             message: 'Select',
             child: IconButton(
