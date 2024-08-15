@@ -30,7 +30,7 @@ class _MainCameraState extends State<MainCamera> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
-              height: 200,
+              height: 140,
                 child: photoClicked())
           ),
         ],
