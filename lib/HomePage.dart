@@ -1,6 +1,9 @@
 // https://github.com/darshanvaru/Mood-Detector.git
 
+import 'package:facecam/AboutApp.dart';
+import 'package:facecam/AboutUs.dart';
 import 'package:flutter/material.dart';
+import 'Guide.dart';
 import 'MainCamera.dart';
 import 'ContactUs.dart';
 
@@ -30,16 +33,16 @@ class _HomePageState extends State<HomePage> {
         page = const ContactUs();
         break;
       case 2:
-        page = const Placeholder();
+        page = const AboutUs();
         break;
       case 3:
-        page = const Placeholder();
+        page = const AboutApp();
         break;
       case 4:
-        page = const Placeholder();
+        page = const Guide();
         break;
       default:
-        page = const Placeholder();
+        page = const HomePage();
     }
 
     Navigator.pushReplacement(

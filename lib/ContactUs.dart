@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'AboutApp.dart';
+import 'AboutUs.dart';
+import 'Guide.dart';
 import 'HomePage.dart';
 
 void main() {
@@ -43,16 +46,16 @@ class _ContactUsState extends State<ContactUs> {
         page = const ContactUs();
         break;
       case 2:
-        page = const Placeholder();
+        page = const AboutUs();
         break;
       case 3:
-        page = const Placeholder();
+        page = const AboutApp();
         break;
       case 4:
-        page = const Placeholder();
+        page = const Guide();
         break;
       default:
-        page = const Placeholder();
+        page = const HomePage();
     }
 
     Navigator.pushReplacement(

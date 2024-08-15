@@ -55,7 +55,7 @@ class _AboutAppState extends State<AboutApp> {
         page = const Guide();
         break;
       default:
-        page = const AboutApp();
+        page = const HomePage();
     }
 
     Navigator.pushReplacement(
