@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'AboutApp.dart';
-import 'AboutUs.dart';
-import 'Guide.dart';
 import 'HomePage.dart';
+import 'Widgets/AppDrawer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,40 +27,7 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
-  int _selectedIndex = 1;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    Widget page;
-
-    switch (index) {
-      case 0:
-        page = const HomePage();
-        break;
-      case 1:
-        page = const ContactUs();
-        break;
-      case 2:
-        page = const AboutUs();
-        break;
-      case 3:
-        page = const AboutApp();
-        break;
-      case 4:
-        page = const Guide();
-        break;
-      default:
-        page = const HomePage();
-    }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
+  final int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -70,60 +35,7 @@ class _ContactUsState extends State<ContactUs> {
       appBar: AppBar(
         title: const Text("Contact Us"),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              selected: _selectedIndex == 0,
-              selectedTileColor: Colors.blue.shade100,
-              onTap: () => _onItemTapped(0),
-            ),
-            ListTile(
-              leading: const Icon(Icons.help),
-              title: const Text('Contact Us'),
-              selected: _selectedIndex == 1,
-              selectedTileColor: Colors.blue.shade100,
-              onTap: () => _onItemTapped(1),
-            ),
-            ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text('About Us'),
-              selected: _selectedIndex == 2,
-              selectedTileColor: Colors.blue.shade100,
-              onTap: () => _onItemTapped(2),
-            ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text('About App'),
-              selected: _selectedIndex == 3,
-              selectedTileColor: Colors.blue.shade100,
-              onTap: () => _onItemTapped(3),
-            ),
-            ListTile(
-              leading: const Icon(Icons.help_outline),
-              title: const Text('Guide'),
-              selected: _selectedIndex == 4,
-              selectedTileColor: Colors.blue.shade100,
-              onTap: () => _onItemTapped(4),
-            ),
-          ],
-        ),
-      ),
+      drawer: AppDrawer(selectedIndex: _selectedIndex),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
