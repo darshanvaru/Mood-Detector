@@ -179,7 +179,28 @@ class _ContactUsState extends State<ContactUs> {
                     onPressed: (){
                       _sendEmail();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Mail Sent!')),
+                        SnackBar(
+                          content: const Text(
+                            'Mail Sent!',
+                            style: TextStyle(
+                              color: Colors.white, // Change text color
+                              fontWeight: FontWeight.bold, // Change text style
+                            ),
+                          ),
+                          backgroundColor: Colors.blue, // Change background color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24.0), // Rounded corners
+                          ),
+                          behavior: SnackBarBehavior.floating, // Makes the SnackBar float above the bottom
+                          margin: const EdgeInsets.all(16.0), // Add margin around the SnackBar
+                          action: SnackBarAction(
+                            label: 'Undo',
+                            textColor: Colors.yellow, // Change action text color
+                            onPressed: () {
+                              // Handle undo action
+                            },
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
