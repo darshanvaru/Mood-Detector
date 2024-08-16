@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'HomePage.dart';
 import 'Widgets/AppDrawer.dart';
 
@@ -29,6 +30,35 @@ class ContactUs extends StatefulWidget {
 class _ContactUsState extends State<ContactUs> {
   final int _selectedIndex = 1;
 
+  // Controllers for the text fields
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _subjectController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+
+  Future<void> _sendEmail() async {
+    final String name = _nameController.text;
+    final String subject = _subjectController.text;
+    final String message = _messageController.text;
+
+    // Construct the mailto URL
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: 'darshanvaru2003@gmail.com',
+      queryParameters: {
+        'subject': subject,
+        'body': 'Name: $name\n\n$message',
+      },
+    );
+
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch email client')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,8 +74,7 @@ class _ContactUsState extends State<ContactUs> {
             children: [
               // Name Field
               Container(
-                padding:
-                const EdgeInsets.all(10.0), // Add padding to the container
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -58,6 +87,7 @@ class _ContactUsState extends State<ContactUs> {
                     ),
                     const SizedBox(height: 10),
                     TextField(
+                      controller: _nameController,
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 14,
@@ -77,8 +107,7 @@ class _ContactUsState extends State<ContactUs> {
               ),
               // Subject Field
               Container(
-                padding:
-                const EdgeInsets.all(10.0), // Add padding to the container
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -91,6 +120,7 @@ class _ContactUsState extends State<ContactUs> {
                     ),
                     const SizedBox(height: 10),
                     TextField(
+                      controller: _subjectController,
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 14,
@@ -110,8 +140,7 @@ class _ContactUsState extends State<ContactUs> {
               ),
               // Message Field
               Container(
-                padding:
-                const EdgeInsets.all(10.0), // Add padding to the container
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -124,6 +153,7 @@ class _ContactUsState extends State<ContactUs> {
                     ),
                     const SizedBox(height: 10),
                     TextField(
+                      controller: _messageController,
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 14,
@@ -146,24 +176,23 @@ class _ContactUsState extends State<ContactUs> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PlaceholderScreen()),
+                    onPressed: (){
+                      _sendEmail();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Mail Sent!')),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.white70,
-                      elevation: 5, // Elevation
+                      elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                           side: const BorderSide(
                             color: Colors.black12,
                           )),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 30.0, vertical: 15.0), // Padding
+                          horizontal: 30.0, vertical: 15.0),
                     ),
                     child: const Text('Send'),
                   ),
@@ -179,6 +208,7 @@ class _ContactUsState extends State<ContactUs> {
 
 class PlaceholderScreen extends StatelessWidget {
   const PlaceholderScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
