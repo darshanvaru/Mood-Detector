@@ -135,7 +135,6 @@ class CheckmarkPainter extends CustomPainter {
             size.height * (0.7 - 0.4 * secondLineProgress)
         );
       }
-
       canvas.drawPath(path, checkPaint);
     }
   }

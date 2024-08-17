@@ -34,12 +34,14 @@ class _AboutAppState extends State<AboutApp> {
       appBar: AppBar(
         title: const Text("About App"),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Text(
-            'Our app, "Mood Detector," is designed to recognize and interpret emotions from facial expressions. By simply capturing a photo, our app processes the image using advanced machine learning models to determine the emotion conveyed. Whether you\'re curious about how you or others might be feeling, or you\'re looking to incorporate emotional analysis into your routine, Mood Detector offers a seamless and engaging experience. The app features a clean and user-friendly interface, making it easy to navigate through different functionalities, such as taking photos, viewing results, and exploring additional resources.',
-            style: TextStyle(fontSize: 16.0),
+      body: const SingleChildScrollView(
+        child: const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Text(
+              'Our app, "Mood Detector," is designed to recognize and interpret emotions from facial expressions. By simply capturing a photo, our app processes the image using advanced machine learning models to determine the emotion conveyed. Whether you\'re curious about how you or others might be feeling, or you\'re looking to incorporate emotional analysis into your routine, Mood Detector offers a seamless and engaging experience. The app features a clean and user-friendly interface, making it easy to navigate through different functionalities, such as taking photos, viewing results, and exploring additional resources.',
+              style: TextStyle(fontSize: 16.0),
+            ),
           ),
         ),
       ),

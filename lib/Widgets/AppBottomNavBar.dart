@@ -15,31 +15,79 @@ class AppBottomNavBar extends StatelessWidget {
   }) : super(key: key);
 
   void _onItemTapped(BuildContext context, int index) {
-    Widget page;
-
-    switch (index) {
-      case 0:
-        page = const HomePage();
-        break;
-      case 1:
-        page = const ContactUs();
-        break;
-      case 2:
-        page = const AboutUs();
-        break;
-      case 3:
-        page = const AboutApp();
-        break;
-      case 4:
-        page = const Guide();
-        break;
-      default:
-        page = const Guide();
+    if (index == 0) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } else if (index == 1) {
+      _showSettingsDrawer(context);
     }
+  }
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => page),
+  void _showSettingsDrawer(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.help),
+              title: const Text('Contact Us'),
+              onTap: () {
+                Navigator.pop(context); // Close the bottom sheet
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ContactUs()),
+                );
+              },
+              selected: selectedIndex == 1,
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text('About Us'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutUs()),
+                );
+              },
+              selected: selectedIndex == 2,
+            ),
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: const Text('About App'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutApp()),
+                );
+              },
+              selected: selectedIndex == 3,
+            ),
+            ListTile(
+              leading: const Icon(Icons.help_outline),
+              title: const Text('Guide'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Guide()),
+                );
+              },
+              selected: selectedIndex == 4,
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -56,20 +104,8 @@ class AppBottomNavBar extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.help),
-          label: 'Contact Us',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.info),
-          label: 'About Us',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.info_outline),
-          label: 'About App',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.help_outline),
-          label: 'Guide',
+          icon: Icon(Icons.settings),
+          label: 'Settings',
         ),
       ],
     );
