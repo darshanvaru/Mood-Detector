@@ -1,7 +1,7 @@
 // https://github.com/darshanvaru/Mood-Detector.git
 
 import 'package:flutter/material.dart';
-import '../Widgets/AppDrawer.dart';
+import '../Widgets/AppBottomNavBar.dart';
 import 'MainCamera.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Emotion Detection'),
       ),
-      drawer: AppDrawer(selectedIndex: _selectedIndex),
       body: Column(
         children: <Widget>[
           const SizedBox(height: 10),
@@ -85,6 +84,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      bottomNavigationBar: AppBottomNavBar(selectedIndex: _selectedIndex),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http; // For making HTTP requests
 import 'dart:convert'; // For JSON encoding
 import 'HomePage.dart';
 import '../Widgets/SuccessDialog.dart';
-import '../Widgets/AppDrawer.dart';
+import '../Widgets/AppBottomNavBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -114,7 +114,6 @@ class _ContactUsState extends State<ContactUs> {
       appBar: AppBar(
         title: const Text("Contact Us"),
       ),
-      drawer: AppDrawer(selectedIndex: _selectedIndex),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -260,6 +259,7 @@ class _ContactUsState extends State<ContactUs> {
           ),
         ),
       ),
+      bottomNavigationBar: AppBottomNavBar(selectedIndex: _selectedIndex),
     );
   }
 }
