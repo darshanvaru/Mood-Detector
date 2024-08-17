@@ -26,11 +26,11 @@ class _MainCameraState extends State<MainCamera> {
           const Expanded(child: Placeholder()),
           const SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: SizedBox(
-              height: 140,
-                child: PhotoClickedWidget(photoClicked: _photoClicked, togglePhotoClicked: _togglePhotoClicked)
-            )
+              padding: const EdgeInsets.all(10.0),
+              child: SizedBox(
+                  height: 140,
+                  child: PhotoClickedWidget(photoClicked: _photoClicked, togglePhotoClicked: _togglePhotoClicked)
+              )
           ),
         ],
       ),
