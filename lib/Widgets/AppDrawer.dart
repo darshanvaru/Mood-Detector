@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../AboutApp.dart';
-import '../AboutUs.dart';
-import '../ContactUs.dart';
-import '../Guide.dart';
-import '../HomePage.dart';
+import '../screens/AboutApp.dart';
+import '../screens/AboutUs.dart';
+import '../screens/ContactUs.dart';
+import '../screens/Guide.dart';
+import '../screens/HomePage.dart';
 
 class AppDrawer extends StatelessWidget {
   final int selectedIndex;
