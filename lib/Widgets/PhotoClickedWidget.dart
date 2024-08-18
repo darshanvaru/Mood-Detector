@@ -23,7 +23,7 @@ class PhotoClickedWidget extends StatelessWidget {
               icon: const Icon(Icons.replay, size: 40),
             ),
           ),
-          const SizedBox(width: 180),
+          const SizedBox(width: 170),
           Tooltip(
             message: 'Select',
             child: IconButton(
@@ -38,7 +38,7 @@ class PhotoClickedWidget extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 60),
+            padding: const EdgeInsets.only(left: 50),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Tooltip(
@@ -47,31 +47,31 @@ class PhotoClickedWidget extends StatelessWidget {
                   onPressed: () {
                     // Handle media selection here
                   },
-                  icon: const Icon(Icons.photo_library, size: 40),
+                  icon: const Icon(Icons.photo_library, size: 45),
                 ),
               ),
             ),
           ),
           SizedBox(
-            width: 70,
-            height: 70,
+            width: 90,
+            height: 90,
             child: FloatingActionButton(
               onPressed: togglePhotoClicked,
               shape: const CircleBorder(),
               foregroundColor: Colors.white,
               backgroundColor: Colors.blue,
-              child: const Icon(Icons.camera_alt_rounded, size: 40),
+              child: const Icon(Icons.camera_alt_rounded, size: 50),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 60),
+            padding: const EdgeInsets.only(right: 50),
             child: Align(
               alignment: Alignment.centerRight,
               child: Tooltip(
                 message: 'Flip Camera',
                 child: IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.cameraswitch_rounded, size: 40),
+                  icon: const Icon(Icons.cameraswitch_rounded, size: 45),
                 ),
               ),
             ),

@@ -1,6 +1,7 @@
 // https://github.com/darshanvaru/Mood-Detector.git
 
 import 'package:flutter/material.dart';
+
 import '../Widgets/AppBottomNavBar.dart';
 import 'MainCamera.dart';
 
@@ -25,7 +26,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Emotion Detection'),
+        backgroundColor: Colors.blue,
+        title: const Center(
+            child: Text(
+          'Emotion Eye',
+          style: TextStyle(
+            fontFamily: 'Proxima Nova',
+            fontSize: 24.0,
+          ),
+        )),
       ),
       body: Column(
         children: <Widget>[

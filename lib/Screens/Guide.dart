@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../Widgets/AppBottomNavBar.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class Guide extends StatefulWidget {
 }
 
 class _GuideState extends State<Guide> {
-  final int _selectedIndex = 4;
+  final int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {

@@ -47,7 +47,8 @@ class AppBottomNavBar extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const ContactUs()),
                 );
               },
-              selected: selectedIndex == 1,
+              selected:
+                  false, // Drawer items do not affect BottomNav selected index
             ),
             ListTile(
               leading: const Icon(Icons.info),
@@ -59,7 +60,7 @@ class AppBottomNavBar extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const AboutUs()),
                 );
               },
-              selected: selectedIndex == 2,
+              selected: false,
             ),
             ListTile(
               leading: const Icon(Icons.info_outline),
@@ -71,7 +72,7 @@ class AppBottomNavBar extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const AboutApp()),
                 );
               },
-              selected: selectedIndex == 3,
+              selected: false,
             ),
             ListTile(
               leading: const Icon(Icons.help_outline),
@@ -83,7 +84,7 @@ class AppBottomNavBar extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const Guide()),
                 );
               },
-              selected: selectedIndex == 4,
+              selected: false,
             ),
           ],
         );

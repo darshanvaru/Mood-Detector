@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../Widgets/AppBottomNavBar.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class AboutUs extends StatefulWidget {
 }
 
 class _AboutUsState extends State<AboutUs> {
-  final int _selectedIndex = 2;
+  final int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class _AboutUsState extends State<AboutUs> {
         title: const Text("About Us"),
       ),
       body: const SingleChildScrollView(
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Text(
