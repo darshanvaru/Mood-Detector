@@ -30,7 +30,7 @@ class HomePageState extends State<HomePage> {
             child: Text(
           'Emotion Eye',
           style: TextStyle(
-            fontFamily: 'Proxima Nova',
+            fontFamily: 'Proximal Nova',
             fontSize: 24.0,
           ),
         )),
