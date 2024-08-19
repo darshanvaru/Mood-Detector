@@ -1,6 +1,7 @@
 // https://github.com/darshanvaru/Mood-Detector.git
 
 import 'package:flutter/material.dart';
+
 import '../Widgets/app_bottom_nav_bar.dart';
 import 'main_camera.dart';
 
@@ -13,7 +14,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   bool _photoClicked = false;
-  final int _selectedIndex = 0;
 
   void _togglePhotoClicked() {
     setState(() {
@@ -92,7 +92,7 @@ class HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: AppBottomNavBar(selectedIndex: _selectedIndex),
+      bottomNavigationBar: const AppBottomNavBar(selectedIndex: 0),
     );
   }
 }

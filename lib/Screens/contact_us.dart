@@ -1,9 +1,11 @@
+import 'dart:convert'; // For JSON encoding
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // For making HTTP requests
-import 'dart:convert'; // For JSON encoding
-import 'home_page.dart';
-import '../Widgets/success_dialog.dart';
+
 import '../Widgets/app_bottom_nav_bar.dart';
+import '../Widgets/success_dialog.dart';
+import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,8 +32,6 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
-  final int _selectedIndex = 1;
-
   // Controllers for the text fields
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _subjectController = TextEditingController();
@@ -108,6 +108,16 @@ class _ContactUsState extends State<ContactUs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const HomePage()),
+              (Route<dynamic> route) =>
+                  false, // This condition removes all routes
+            );
+          },
+        ),
         title: const Text("Contact Us"),
       ),
       body: GestureDetector(
@@ -255,7 +265,10 @@ class _ContactUsState extends State<ContactUs> {
           ),
         ),
       ),
-      bottomNavigationBar: AppBottomNavBar(selectedIndex: _selectedIndex),
+      bottomNavigationBar: const AppBottomNavBar(
+        selectedIndex: 1,
+        selectedSettingIndex: 1,
+      ),
     );
   }
 }

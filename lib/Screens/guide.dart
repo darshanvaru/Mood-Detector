@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../Widgets/app_bottom_nav_bar.dart';
+import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,12 +28,23 @@ class Guide extends StatefulWidget {
 }
 
 class _GuideState extends State<Guide> {
-  final int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const HomePage()),
+              (Route<dynamic> route) =>
+                  false, // This condition removes all routes
+            );
+          },
+        ),
+        backgroundColor: Colors.blue,
+        automaticallyImplyLeading: true,
         title: const Text("Guide"),
       ),
       body: const SingleChildScrollView(
@@ -40,10 +53,9 @@ class _GuideState extends State<Guide> {
           child: SingleChildScrollView(
             child: Text(
               'Getting Started:\n\n'
-                  '1. Launch the App: Open the Mood Detector app on your device.\n'
-                  '2. Capture a Photo: Use the central camera button to take a photo of your face or someone else’s.\n'
-                  '3. Analyze Emotion: The app will process the image and display the detected emotion on the screen.\n\n'
-                  'Additional Options:\n\n'
+              '1. Capture a Photo: Use the central camera button to take a photo of your face or someone else’s.\n'
+              '2. Analyze Emotion: The app will process the image and display the detected emotion on the screen.\n\n'
+              'Additional Options:\n\n'
                   '- Gallery: You can also upload a photo from your gallery using the gallery icon on the left.\n'
                   '- Replay: Tap the replay button to analyze another photo.\n\n'
                   'Navigation:\n\n'
@@ -59,7 +71,10 @@ class _GuideState extends State<Guide> {
           ),
         ),
       ),
-      bottomNavigationBar: AppBottomNavBar(selectedIndex: _selectedIndex),
+      bottomNavigationBar: const AppBottomNavBar(
+        selectedIndex: 1,
+        selectedSettingIndex: 4,
+      ),
     );
   }
 }
