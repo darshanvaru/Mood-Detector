@@ -8,14 +8,19 @@ import '../screens/home_page.dart';
 
 class AppBottomNavBar extends StatelessWidget {
   final int selectedIndex;
+  final int? selectedSettingIndex;
 
   const AppBottomNavBar({
     super.key,
+    this.selectedSettingIndex,
     required this.selectedIndex,
   });
 
   void _onItemTapped(BuildContext context, int index) {
     if (index == 0) {
+      if (selectedIndex == 0) {
+        return;
+      }
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
@@ -41,24 +46,31 @@ class AppBottomNavBar extends StatelessWidget {
               leading: const Icon(Icons.help),
               title: const Text('Contact Us'),
               onTap: () {
-                Navigator.pop(context); // Close the bottom sheet
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ContactUs()),
-                );
+                Navigator.pop(context); // Closing bottom sheet
+                if (selectedSettingIndex != 1) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ContactUs()),
+                  );
+                } else {
+                  return;
+                }
               },
-              selected:
-                  false, // Drawer items do not affect BottomNav selected index
+              selected: false,
             ),
             ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About Us'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AboutUs()),
-                );
+                if (selectedSettingIndex != 2) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AboutUs()),
+                  );
+                } else {
+                  return;
+                }
               },
               selected: false,
             ),
@@ -67,10 +79,14 @@ class AppBottomNavBar extends StatelessWidget {
               title: const Text('About App'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AboutApp()),
-                );
+                if (selectedSettingIndex != 3) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AboutApp()),
+                  );
+                } else {
+                  return;
+                }
               },
               selected: false,
             ),
@@ -79,10 +95,14 @@ class AppBottomNavBar extends StatelessWidget {
               title: const Text('Guide'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Guide()),
-                );
+                if (selectedSettingIndex != 4) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Guide()),
+                  );
+                } else {
+                  return;
+                }
               },
               selected: false,
             ),
@@ -95,10 +115,14 @@ class AppBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: selectedIndex,
       onTap: (index) => _onItemTapped(context, index),
+      currentIndex: selectedIndex,
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey,
+      showSelectedLabels: false,
+      // Hide the labels when selected
+      showUnselectedLabels: false,
+      // Hide the labels when not selected
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

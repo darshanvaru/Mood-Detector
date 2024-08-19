@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../Widgets/app_bottom_nav_bar.dart';
+import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,12 +28,21 @@ class AboutApp extends StatefulWidget {
 }
 
 class _AboutAppState extends State<AboutApp> {
-  final int _selectedIndex = 1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const HomePage()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+        backgroundColor: Colors.blue,
+        automaticallyImplyLeading: true,
         title: const Text("About App"),
       ),
       body: const SingleChildScrollView(
@@ -45,7 +56,10 @@ class _AboutAppState extends State<AboutApp> {
           ),
         ),
       ),
-      bottomNavigationBar: AppBottomNavBar(selectedIndex: _selectedIndex),
+      bottomNavigationBar: const AppBottomNavBar(
+        selectedIndex: 1,
+        selectedSettingIndex: 3,
+      ),
     );
   }
 }
