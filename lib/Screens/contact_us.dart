@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // For making HTTP requests
 import 'dart:convert'; // For JSON encoding
-import 'HomePage.dart';
-import '../Widgets/SuccessDialog.dart';
-import '../Widgets/AppBottomNavBar.dart';
+import 'home_page.dart';
+import '../Widgets/success_dialog.dart';
+import '../Widgets/app_bottom_nav_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,15 +46,10 @@ class _ContactUsState extends State<ContactUs> {
     final Uri emailUri = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
 
     try {
-      // Construct the authorization header
-      // final String credentials = 'NYLx1xbXXe8jZ62U6:5hMRgLgLb9pjZKCl2PiUU';
-      // final String base64Credentials = base64Encode(utf8.encode(credentials));
-
       final response = await http.post(
         emailUri,
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': 'Basic $base64Credentials',
         },
         body: jsonEncode({
           'service_id': 'service_fpeqneh',
@@ -68,17 +63,17 @@ class _ContactUsState extends State<ContactUs> {
         }),
       );
 
+      if (!mounted) return; // Check if the widget is still mounted
+
       if (response.statusCode == 200) {
         showDialog(
-          context: context,
-          builder: (context) => SuccessDialog(),
+          context: context, // Now it’s safe to use BuildContext
+          builder: (context) => const SuccessDialog(),
         );
       } else {
-        print('Error: ${response.statusCode}');
-        print('Response body: ${response.body}');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text(
+            content: Text(
               'Failed to send email',
               style: TextStyle(
                 color: Colors.white,
@@ -91,10 +86,11 @@ class _ContactUsState extends State<ContactUs> {
         );
       }
     } catch (e) {
-      print('Exception: $e');
+      if (!mounted) return; // Check if the widget is still mounted
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: const Text(
+          content: Text(
             'Exception occurred',
             style: TextStyle(
               color: Colors.white,

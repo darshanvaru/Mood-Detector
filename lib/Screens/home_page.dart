@@ -1,18 +1,17 @@
 // https://github.com/darshanvaru/Mood-Detector.git
 
 import 'package:flutter/material.dart';
-
-import '../Widgets/AppBottomNavBar.dart';
-import 'MainCamera.dart';
+import '../Widgets/app_bottom_nav_bar.dart';
+import 'main_camera.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   bool _photoClicked = false;
   final int _selectedIndex = 0;
 

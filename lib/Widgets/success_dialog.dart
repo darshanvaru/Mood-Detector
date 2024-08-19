@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class SuccessDialog extends StatefulWidget {
-  const SuccessDialog({Key? key}) : super(key: key);
+  const SuccessDialog({super.key});
 
   @override
-  _SuccessDialogState createState() => _SuccessDialogState();
+  SuccessDialogState createState() => SuccessDialogState();
 }
 
-class _SuccessDialogState extends State<SuccessDialog> with SingleTickerProviderStateMixin {
+class SuccessDialogState extends State<SuccessDialog>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

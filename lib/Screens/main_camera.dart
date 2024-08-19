@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../Widgets/PhotoClickedWidget.dart';
+import '../Widgets/photo_clicked_widget.dart';
 
 class MainCamera extends StatefulWidget {
   const MainCamera({super.key});
 
   @override
-  _MainCameraState createState() => _MainCameraState();
+  MainCameraState createState() => MainCameraState();
 }
 
-class _MainCameraState extends State<MainCamera> {
+class MainCameraState extends State<MainCamera> {
   bool _photoClicked = false;
 
   void _togglePhotoClicked() {

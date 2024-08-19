@@ -5,10 +5,10 @@ class PhotoClickedWidget extends StatelessWidget {
   final VoidCallback togglePhotoClicked;
 
   const PhotoClickedWidget({
-    Key? key,
+    super.key,
     required this.photoClicked,
     required this.togglePhotoClicked,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

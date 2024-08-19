@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../screens/AboutApp.dart';
-import '../screens/AboutUs.dart';
-import '../screens/ContactUs.dart';
-import '../screens/Guide.dart';
-import '../screens/HomePage.dart';
+import '../screens/about_app.dart';
+import '../screens/about_us.dart';
+import '../screens/contact_us.dart';
+import '../screens/guide.dart';
+import '../screens/home_page.dart';
 
 class AppBottomNavBar extends StatelessWidget {
   final int selectedIndex;
 
   const AppBottomNavBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
-  }) : super(key: key);
+  });
 
   void _onItemTapped(BuildContext context, int index) {
     if (index == 0) {
