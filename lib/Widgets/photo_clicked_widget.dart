@@ -5,10 +5,10 @@ class PhotoClickedWidget extends StatelessWidget {
   final VoidCallback togglePhotoClicked;
 
   const PhotoClickedWidget({
-    super.key,
+    Key? key,
     required this.photoClicked,
     required this.togglePhotoClicked,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class PhotoClickedWidget extends StatelessWidget {
               icon: const Icon(Icons.replay, size: 40),
             ),
           ),
-          const SizedBox(width: 170),
+          const SizedBox(width: 16), // Adjust width if needed
           Tooltip(
             message: 'Select',
             child: IconButton(
@@ -37,42 +37,34 @@ class PhotoClickedWidget extends StatelessWidget {
       return Stack(
         alignment: Alignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 50),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Tooltip(
-                message: 'Media',
-                child: IconButton(
-                  onPressed: () {
-                    // Handle media selection here
-                  },
-                  icon: const Icon(Icons.photo_library, size: 45),
-                ),
+          Positioned(
+            left: 16, // Adjust based on design needs
+            child: Tooltip(
+              message: 'Media',
+              child: IconButton(
+                onPressed: () {
+                  // Handle media selection here
+                },
+                icon: const Icon(Icons.photo_library, size: 45),
               ),
             ),
           ),
-          SizedBox(
-            width: 90,
-            height: 90,
-            child: FloatingActionButton(
-              onPressed: togglePhotoClicked,
-              shape: const CircleBorder(),
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.blue,
-              child: const Icon(Icons.camera_alt_rounded, size: 50),
-            ),
+          FloatingActionButton(
+            onPressed: togglePhotoClicked,
+            shape: const CircleBorder(),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.blue,
+            child: const Icon(Icons.camera_alt_rounded, size: 50),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 50),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Tooltip(
-                message: 'Flip Camera',
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.cameraswitch_rounded, size: 45),
-                ),
+          Positioned(
+            right: 16, // Adjust based on design needs
+            child: Tooltip(
+              message: 'Flip Camera',
+              child: IconButton(
+                onPressed: () {
+                  // Handle camera flip
+                },
+                icon: const Icon(Icons.cameraswitch_rounded, size: 45),
               ),
             ),
           ),
