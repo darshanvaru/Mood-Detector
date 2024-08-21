@@ -5,10 +5,10 @@ class PhotoClickedWidget extends StatelessWidget {
   final VoidCallback togglePhotoClicked;
 
   const PhotoClickedWidget({
-    Key? key,
+    super.key,
     required this.photoClicked,
     required this.togglePhotoClicked,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class PhotoClickedWidget extends StatelessWidget {
               icon: const Icon(Icons.replay, size: 40),
             ),
           ),
-          const SizedBox(width: 16), // Adjust width if needed
+          const SizedBox(width: 16),
           Tooltip(
             message: 'Select',
             child: IconButton(
@@ -38,12 +38,11 @@ class PhotoClickedWidget extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Positioned(
-            left: 16, // Adjust based on design needs
+            left: 16,
             child: Tooltip(
               message: 'Media',
               child: IconButton(
                 onPressed: () {
-                  // Handle media selection here
                 },
                 icon: const Icon(Icons.photo_library, size: 45),
               ),
@@ -57,12 +56,11 @@ class PhotoClickedWidget extends StatelessWidget {
             child: const Icon(Icons.camera_alt_rounded, size: 50),
           ),
           Positioned(
-            right: 16, // Adjust based on design needs
+            right: 16,
             child: Tooltip(
               message: 'Flip Camera',
               child: IconButton(
                 onPressed: () {
-                  // Handle camera flip
                 },
                 icon: const Icon(Icons.cameraswitch_rounded, size: 45),
               ),
