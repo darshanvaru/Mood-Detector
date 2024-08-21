@@ -1,4 +1,4 @@
-// https://github.com/darshanvaru/Mood-Detector.git
+// https://github.com/darshabbnvaru/Mood-Detector.git
 
 import 'package:flutter/material.dart';
 
