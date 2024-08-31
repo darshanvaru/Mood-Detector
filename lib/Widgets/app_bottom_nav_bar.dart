@@ -118,26 +118,32 @@ class AppBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(50.0)),
-      child: BottomNavigationBar(
-        onTap: (index) => _onItemTapped(context, index),
-        currentIndex: selectedIndex,
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.blue[50],
-        unselectedItemColor: Colors.white,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, size: 33),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings, size: 33,),
-            label: 'Settings',
-          ),
-        ],
+    return Material(
+      color: Colors.blue,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(50.0)),
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(50.0)),
+        child: BottomNavigationBar(
+          onTap: (index) => _onItemTapped(context, index),
+          currentIndex: selectedIndex,
+          backgroundColor: Colors.blue,
+          selectedItemColor: Colors.blue[50],
+          unselectedItemColor: Colors.white,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home, size: 33),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings, size: 33),
+              label: 'Settings',
+            ),
+          ],
+        ),
       ),
     );
   }
