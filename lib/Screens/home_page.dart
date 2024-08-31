@@ -1,5 +1,4 @@
-// https://github.com/darshabbnvaru/Mood-Detector.git
-
+// https://github.com/darshanvaru/Mood-Detector
 import 'package:flutter/material.dart';
 
 import '../Widgets/app_bottom_nav_bar.dart';
