@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 class PhotoClickedWidget extends StatelessWidget {
   final bool photoClicked;
   final VoidCallback togglePhotoClicked;
+  final VoidCallback capturePhoto;
+  final VoidCallback pickFromGallery;
+  final VoidCallback flipCamera;
 
   const PhotoClickedWidget({
     super.key,
     required this.photoClicked,
     required this.togglePhotoClicked,
+    required this.capturePhoto,
+    required this.pickFromGallery,
+    required this.flipCamera,
   });
 
   @override
@@ -23,7 +29,7 @@ class PhotoClickedWidget extends StatelessWidget {
               icon: const Icon(Icons.replay, size: 40),
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 190),
           Tooltip(
             message: 'Select',
             child: IconButton(
@@ -33,36 +39,18 @@ class PhotoClickedWidget extends StatelessWidget {
           ),
         ],
       );
-    } else {
-      return Stack(
-        alignment: Alignment.center,
-        children: [
-          Positioned(
-            left: 16,
-            child: Tooltip(
-              message: 'Media',
-              child: IconButton(
-                onPressed: () {
-                },
-                icon: const Icon(Icons.photo_library, size: 45),
-              ),
-            ),
+    } else {),
           ),
-          FloatingActionButton(
-            onPressed: togglePhotoClicked,
-            shape: const CircleBorder(),
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.blue,
-            child: const Icon(Icons.camera_alt_rounded, size: 50),
-          ),
-          Positioned(
-            right: 16,
-            child: Tooltip(
-              message: 'Flip Camera',
-              child: IconButton(
-                onPressed: () {
-                },
-                icon: const Icon(Icons.cameraswitch_rounded, size: 45),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 40.0),
+              child: Tooltip(
+                message: 'Flip Camera',
+                child: IconButton(
+                  onPressed: flipCamera,
+                  icon: const Icon(Icons.cameraswitch_rounded, size: 40),
+                ),
               ),
             ),
           ),
