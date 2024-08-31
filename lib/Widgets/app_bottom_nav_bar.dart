@@ -33,154 +33,111 @@ class AppBottomNavBar extends StatelessWidget {
   void _showSettingsDrawer(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.blue[50],
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(43),
         ),
       ),
       builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.grey, width: 1),
-                  ),
+        return Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white,       // White color
+                Color(0x97C3ECFF),  // Light Blue color
+              ],
+            ),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(43),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildListTile(
+                  context,
+                  icon: Icons.contact_mail,
+                  title: 'Contact Us',
+                  navigateTo: const ContactUs(),
+                  settingIndex: 1,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                  child: ListTile(
-                    leading: const Icon(Icons.contact_mail),
-                    title: const Text('Contact Us'),
-                    onTap: () {
-                      Navigator.pop(context); // Closing bottom sheet
-                      if (selectedSettingIndex != 1) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ContactUs()),
-                        );
-                      } else {
-                        return;
-                      }
-                    },
-                    selected: false,
-                  ),
+                _buildListTile(
+                  context,
+                  icon: Icons.group,
+                  title: 'About Us',
+                  navigateTo: const AboutUs(),
+                  settingIndex: 2,
                 ),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.grey, width: 1),
-                  ),
+                _buildListTile(
+                  context,
+                  icon: Icons.info,
+                  title: 'About App',
+                  navigateTo: const AboutApp(),
+                  settingIndex: 3,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                  child: ListTile(
-                    leading: const Icon(Icons.group),
-                    title: const Text('About Us'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      if (selectedSettingIndex != 2) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const AboutUs()),
-                        );
-                      } else {
-                        return;
-                      }
-                    },
-                    selected: false,
-                  ),
+                _buildListTile(
+                  context,
+                  icon: Icons.help,
+                  title: 'Guide',
+                  navigateTo: const Guide(),
+                  settingIndex: 4,
                 ),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.grey, width: 1),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                  child: ListTile(
-                    leading: const Icon(Icons.info),
-                    title: const Text('About App'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      if (selectedSettingIndex != 3) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const AboutApp()),
-                        );
-                      } else {
-                        return;
-                      }
-                    },
-                    selected: false,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                child: ListTile(
-                  leading: const Icon(Icons.help),
-                  title: const Text('Guide'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    if (selectedSettingIndex != 4) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Guide()),
-                      );
-                    } else {
-                      return;
-                    }
-                  },
-                  selected: false,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
     );
   }
 
+  ListTile _buildListTile(BuildContext context, {
+    required IconData icon,
+    required String title,
+    required Widget navigateTo,
+    required int settingIndex
+  }) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      onTap: () {
+        Navigator.pop(context);
+        if (selectedSettingIndex != settingIndex) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => navigateTo),
+          );
+        }
+      },
+      selected: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: Colors.black.withOpacity(0.1), width: 2.0), // Light top border
-        ),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(50.0)),
-      ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(50.0)), // Apply the same roundness to the ClipRRect
-        child: BottomNavigationBar(
-          onTap: (index) => _onItemTapped(context, index),
-          currentIndex: selectedIndex,
-          backgroundColor: Colors.blue[50],
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.grey,
-          showSelectedLabels: false,
-          // Hide the labels when selected
-          showUnselectedLabels: false,
-          // Hide the labels when not selected
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home, size: 33),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings, size: 33,),
-              label: 'Settings',
-            ),
-          ],
-        ),
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(50.0)),
+      child: BottomNavigationBar(
+        onTap: (index) => _onItemTapped(context, index),
+        currentIndex: selectedIndex,
+        backgroundColor: Colors.blue,
+        selectedItemColor: Colors.blue[50],
+        unselectedItemColor: Colors.white,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, size: 33),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings, size: 33,),
+            label: 'Settings',
+          ),
+        ],
       ),
     );
   }

@@ -57,7 +57,7 @@ class HomePageState extends State<HomePage> {
                   height: 240,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.blue[50],
+                    color: Colors.blue[100],
                   ),
                 ),
                 Container(
@@ -77,9 +77,9 @@ class HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MainCamera()),
-                      );
-                    },
+                            builder: (context) => const MainCamera()
+                        ));
+                      },
                     shape: const CircleBorder(),
                     backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
