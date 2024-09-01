@@ -1,3 +1,4 @@
+// photo_clicked_widget.dart
 import 'package:flutter/material.dart';
 
 class PhotoClickedWidget extends StatelessWidget {

@@ -1,10 +1,12 @@
+// main_camera.dart
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import '../Widgets/photo_clicked_widget.dart';
+import '../Widgets/camera_help_dialog.dart';
+import '../services/camera_service.dart';
 
 class MainCamera extends StatefulWidget {
   const MainCamera({super.key});
@@ -14,9 +16,8 @@ class MainCamera extends StatefulWidget {
 }
 
 class MainCameraState extends State<MainCamera> {
+  final CameraService _cameraService = CameraService();
   bool _photoClicked = false;
-  late CameraController _cameraController;
-  late Future<void> _initializeControllerFuture;
   XFile? _capturedImage;
   int _selectedCameraIndex = 0;
   List<CameraDescription>? cameras;
@@ -29,12 +30,7 @@ class MainCameraState extends State<MainCamera> {
 
   void _initializeCamera() async {
     cameras = await availableCameras();
-    _cameraController = CameraController(
-      cameras![_selectedCameraIndex],
-      ResolutionPreset.high,
-    );
-
-    _initializeControllerFuture = _cameraController.initialize();
+    await _cameraService.initializeCamera(cameras!, _selectedCameraIndex);
     if (mounted) {
       setState(() {});
     }
@@ -47,28 +43,26 @@ class MainCameraState extends State<MainCamera> {
     });
   }
 
+  bool _isFrontCamera() {
+    return cameras![_selectedCameraIndex].lensDirection == CameraLensDirection.front;
+  }
+
   Future<void> _capturePhoto() async {
     try {
-      await _initializeControllerFuture;
-      final imageFile = await _cameraController.takePicture();
-
-      // Load the image using the image package
-      final image = img.decodeImage(File(imageFile.path).readAsBytesSync());
-      if (image != null) {
-        // Flip the image horizontally
-        final flippedImage = img.flipHorizontal(image);
-
-        // Save the flipped image to a new file
-        final flippedImagePath = '${Directory.systemTemp.path}/flipped_image.jpg';
-        File(flippedImagePath).writeAsBytesSync(img.encodeJpg(flippedImage));
-
-        setState(() {
-          _capturedImage = XFile(flippedImagePath);
-          _photoClicked = true;
-        });
-      }
+      final image = await _cameraService.capturePhoto();
+      setState(() {
+        _capturedImage = image;
+        _photoClicked = true;
+      });
     } catch (e) {
-      print(e);
+      if(mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error capturing photo: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -88,12 +82,7 @@ class MainCameraState extends State<MainCamera> {
   void _flipCamera() async {
     if (cameras != null && cameras!.length > 1) {
       _selectedCameraIndex = (_selectedCameraIndex + 1) % cameras!.length;
-      _cameraController = CameraController(
-        cameras![_selectedCameraIndex],
-        ResolutionPreset.high,
-      );
-
-      _initializeControllerFuture = _cameraController.initialize();
+      await _cameraService.initializeCamera(cameras!, _selectedCameraIndex);
       if (mounted) {
         setState(() {});
       }
@@ -102,7 +91,7 @@ class MainCameraState extends State<MainCamera> {
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    _cameraService.dispose();
     super.dispose();
   }
 
@@ -119,23 +108,7 @@ class MainCameraState extends State<MainCamera> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    content: const Text(
-                      'Please ensure you are in a well-lit environment for taking a photo. '
-                          'Make sure your face is clearly visible. '
-                          'If possible, then remove goggles if there is any.\n\n'
-                          'You can visit the Guide page from the home screen for more information.',
-                      textAlign: TextAlign.left,
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
+                  return const CameraHelpDialog();
                 },
               );
             },
@@ -172,10 +145,10 @@ class MainCameraState extends State<MainCamera> {
               ),
             )
                 : FutureBuilder<void>(
-              future: _initializeControllerFuture,
+              future: _cameraService.initializeFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_cameraController);
+                  return CameraPreview(_cameraService.cameraController);
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }

@@ -1,3 +1,4 @@
+// camera_service.dart
 import 'package:camera/camera.dart';
 
 class CameraService {
