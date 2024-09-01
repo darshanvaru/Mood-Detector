@@ -1,9 +1,9 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-
+import '../services/camera_service.dart';
 import '../Widgets/photo_clicked_widget.dart';
+import 'dart:io';
 
 class MainCamera extends StatefulWidget {
   const MainCamera({super.key});
@@ -14,8 +14,7 @@ class MainCamera extends StatefulWidget {
 
 class MainCameraState extends State<MainCamera> {
   bool _photoClicked = false;
-  late CameraController _cameraController;
-  late Future<void> _initializeControllerFuture;
+  final CameraService _cameraService = CameraService();
   XFile? _capturedImage;
   int _selectedCameraIndex = 0;
   List<CameraDescription>? cameras;
@@ -28,14 +27,21 @@ class MainCameraState extends State<MainCamera> {
 
   void _initializeCamera() async {
     cameras = await availableCameras();
-    _cameraController = CameraController(
-      cameras![_selectedCameraIndex],
-      ResolutionPreset.high,
-    );
-
-    _initializeControllerFuture = _cameraController.initialize();
+    await _cameraService.initializeCamera(cameras!, _selectedCameraIndex);
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  Future<void> _capturePhoto() async {
+    try {
+      final image = await _cameraService.capturePhoto();
+      setState(() {
+        _capturedImage = image;
+        _photoClicked = true;
+      });
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -46,16 +52,13 @@ class MainCameraState extends State<MainCamera> {
     });
   }
 
-  Future<void> _capturePhoto() async {
-    try {
-      await _initializeControllerFuture;
-      final image = await _cameraController.takePicture();
-      setState(() {
-        _capturedImage = image;
-        _photoClicked = true;
-      });
-    } catch (e) {
-      print(e);
+  void _flipCamera() async {
+    if (cameras != null && cameras!.length > 1) {
+      _selectedCameraIndex = (_selectedCameraIndex + 1) % cameras!.length;
+      await _cameraService.initializeCamera(cameras!, _selectedCameraIndex);
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -71,24 +74,9 @@ class MainCameraState extends State<MainCamera> {
     }
   }
 
-  void _flipCamera() async {
-    if (cameras != null && cameras!.length > 1) {
-      _selectedCameraIndex = (_selectedCameraIndex + 1) % cameras!.length;
-      _cameraController = CameraController(
-        cameras![_selectedCameraIndex],
-        ResolutionPreset.high,
-      );
-
-      _initializeControllerFuture = _cameraController.initialize();
-      if (mounted) {
-        setState(() {});
-      }
-    }
-  }
-
   @override
   void dispose() {
-    _cameraController.dispose();
+    _cameraService.dispose();
     super.dispose();
   }
 
@@ -135,8 +123,8 @@ class MainCameraState extends State<MainCamera> {
             child: _photoClicked && _capturedImage != null
                 ? Center(
               child: Container(
-                padding: const EdgeInsets.all(10.0), // Adjust padding for the floating effect
-                margin: const EdgeInsets.symmetric(horizontal: 20.0), // Adjust margin for side spacing
+                padding: const EdgeInsets.all(10.0),
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
@@ -158,10 +146,10 @@ class MainCameraState extends State<MainCamera> {
               ),
             )
                 : FutureBuilder<void>(
-              future: _initializeControllerFuture,
+              future: _cameraService.initializeFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_cameraController);
+                  return CameraPreview(_cameraService.cameraController);
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }
