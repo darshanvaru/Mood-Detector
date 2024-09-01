@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../services/camera_service.dart';
-import '../Widgets/photo_clicked_widget.dart';
 import 'dart:io';
+
+import '../Widgets/photo_clicked_widget.dart';
 
 class MainCamera extends StatefulWidget {
   const MainCamera({super.key});
@@ -14,7 +14,8 @@ class MainCamera extends StatefulWidget {
 
 class MainCameraState extends State<MainCamera> {
   bool _photoClicked = false;
-  final CameraService _cameraService = CameraService();
+  late CameraController _cameraController;
+  late Future<void> _initializeControllerFuture;
   XFile? _capturedImage;
   int _selectedCameraIndex = 0;
   List<CameraDescription>? cameras;
@@ -27,35 +28,14 @@ class MainCameraState extends State<MainCamera> {
 
   void _initializeCamera() async {
     cameras = await availableCameras();
-    await _cameraService.initializeCamera(cameras!, _selectedCameraIndex);
+    _cameraController = CameraController(
+      cameras![_selectedCameraIndex],
+      ResolutionPreset.high,
+    );
+
+    _initializeControllerFuture = _cameraController.initialize();
     if (mounted) {
       setState(() {});
-    }
-  }
-
-  Future<void> _capturePhoto() async {
-    try {
-      final image = await _cameraService.capturePhoto();
-      setState(() {
-        _capturedImage = image;
-        _photoClicked = true;
-      });
-    } catch (e) {
-      if(mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Error! Please try again',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
     }
   }
 
@@ -66,13 +46,16 @@ class MainCameraState extends State<MainCamera> {
     });
   }
 
-  void _flipCamera() async {
-    if (cameras != null && cameras!.length > 1) {
-      _selectedCameraIndex = (_selectedCameraIndex + 1) % cameras!.length;
-      await _cameraService.initializeCamera(cameras!, _selectedCameraIndex);
-      if (mounted) {
-        setState(() {});
-      }
+  Future<void> _capturePhoto() async {
+    try {
+      await _initializeControllerFuture;
+      final image = await _cameraController.takePicture();
+      setState(() {
+        _capturedImage = image;
+        _photoClicked = true;
+      });
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -88,9 +71,24 @@ class MainCameraState extends State<MainCamera> {
     }
   }
 
+  void _flipCamera() async {
+    if (cameras != null && cameras!.length > 1) {
+      _selectedCameraIndex = (_selectedCameraIndex + 1) % cameras!.length;
+      _cameraController = CameraController(
+        cameras![_selectedCameraIndex],
+        ResolutionPreset.high,
+      );
+
+      _initializeControllerFuture = _cameraController.initialize();
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
+
   @override
   void dispose() {
-    _cameraService.dispose();
+    _cameraController.dispose();
     super.dispose();
   }
 
@@ -137,8 +135,8 @@ class MainCameraState extends State<MainCamera> {
             child: _photoClicked && _capturedImage != null
                 ? Center(
               child: Container(
-                padding: const EdgeInsets.all(10.0),
-                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.all(10.0), // Adjust padding for the floating effect
+                margin: const EdgeInsets.symmetric(horizontal: 20.0), // Adjust margin for side spacing
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
@@ -160,10 +158,10 @@ class MainCameraState extends State<MainCamera> {
               ),
             )
                 : FutureBuilder<void>(
-              future: _cameraService.initializeFuture,
+              future: _initializeControllerFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_cameraService.cameraController);
+                  return CameraPreview(_cameraController);
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }
