@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -49,15 +50,28 @@ class MainCameraState extends State<MainCamera> {
   Future<void> _capturePhoto() async {
     try {
       await _initializeControllerFuture;
-      final image = await _cameraController.takePicture();
-      setState(() {
-        _capturedImage = image;
-        _photoClicked = true;
-      });
+      final imageFile = await _cameraController.takePicture();
+
+      // Load the image using the image package
+      final image = img.decodeImage(File(imageFile.path).readAsBytesSync());
+      if (image != null) {
+        // Flip the image horizontally
+        final flippedImage = img.flipHorizontal(image);
+
+        // Save the flipped image to a new file
+        final flippedImagePath = '${Directory.systemTemp.path}/flipped_image.jpg';
+        File(flippedImagePath).writeAsBytesSync(img.encodeJpg(flippedImage));
+
+        setState(() {
+          _capturedImage = XFile(flippedImagePath);
+          _photoClicked = true;
+        });
+      }
     } catch (e) {
       print(e);
     }
   }
+
 
   Future<void> _pickFromGallery() async {
     final picker = ImagePicker();
