@@ -33,7 +33,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     _outerCircleAnimation = Tween<double>(
       begin: 1.0,
-      end: _random.nextDouble(),// * 0.06 + 1.06,
+      end: _random.nextDouble() * 0.08 + 1.06,
     ).animate(
       CurvedAnimation(parent: _outerCircleController, curve: Curves.easeInOut),
     );
@@ -47,7 +47,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     _middleCircleAnimation = Tween<double>(
       begin: 1.0,
-      end: _random.nextDouble(),// * 0.05 + 1.07,
+      end: _random.nextDouble() * 0.0699 + 1.07,
     ).animate(
       CurvedAnimation(parent: _middleCircleController, curve: Curves.easeInOut),
     );
@@ -139,8 +139,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MainCamera()
-                          ));
+                              builder: (context) => const MainCamera()));
                     },
                     shape: const CircleBorder(),
                     backgroundColor: Colors.blue,
