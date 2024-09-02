@@ -44,7 +44,8 @@ class MainCameraState extends State<MainCamera> {
   }
 
   bool _isFrontCamera() {
-    return cameras![_selectedCameraIndex].lensDirection == CameraLensDirection.front;
+    return cameras![_selectedCameraIndex].lensDirection ==
+        CameraLensDirection.front;
   }
 
   Future<void> _capturePhoto() async {
@@ -55,7 +56,7 @@ class MainCameraState extends State<MainCamera> {
         _photoClicked = true;
       });
     } catch (e) {
-      if(mounted) {
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error capturing photo: $e'),
@@ -65,7 +66,6 @@ class MainCameraState extends State<MainCamera> {
       }
     }
   }
-
 
   Future<void> _pickFromGallery() async {
     final picker = ImagePicker();
@@ -121,39 +121,41 @@ class MainCameraState extends State<MainCamera> {
           Expanded(
             child: _photoClicked && _capturedImage != null
                 ? Center(
-              child: Container(
-                padding: const EdgeInsets.all(10.0), // Adjust padding for the floating effect
-                margin: const EdgeInsets.symmetric(horizontal: 20.0), // Adjust margin for side spacing
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10.0,
-                      offset: Offset(0, 5),
+                    child: Container(
+                      padding: const EdgeInsets.all(
+                          10.0), // Adjust padding for the floating effect
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20.0), // Adjust margin for side spacing
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Image.file(
+                          File(_capturedImage!.path),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.file(
-                    File(_capturedImage!.path),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            )
+                  )
                 : FutureBuilder<void>(
-              future: _cameraService.initializeFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_cameraService.cameraController);
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
+                    future: _cameraService.initializeFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return CameraPreview(_cameraService.cameraController);
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),
