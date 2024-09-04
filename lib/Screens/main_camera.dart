@@ -1,4 +1,3 @@
-// main_camera.dart
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,8 +18,9 @@ class MainCameraState extends State<MainCamera> {
   final CameraService _cameraService = CameraService();
   bool _photoClicked = false;
   XFile? _capturedImage;
-  int _selectedCameraIndex = 0;
+  int _selectedCameraIndex = 1;
   List<CameraDescription>? cameras;
+  FlashMode _flashMode = FlashMode.auto; // Default flash mode
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class MainCameraState extends State<MainCamera> {
         _photoClicked = true;
       });
     } catch (e) {
-      if(mounted) {
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error capturing photo: $e'),
@@ -61,7 +61,6 @@ class MainCameraState extends State<MainCamera> {
       }
     }
   }
-
 
   Future<void> _pickFromGallery() async {
     final picker = ImagePicker();
@@ -85,6 +84,19 @@ class MainCameraState extends State<MainCamera> {
     }
   }
 
+  void _toggleFlashMode() {
+    setState(() {
+      if (_flashMode == FlashMode.auto) {
+        _flashMode = FlashMode.torch;
+      } else if (_flashMode == FlashMode.torch) {
+        _flashMode = FlashMode.off;
+      } else {
+        _flashMode = FlashMode.auto;
+      }
+      _cameraService.setFlashMode(_flashMode);
+    });
+  }
+
   @override
   void dispose() {
     _cameraService.dispose();
@@ -98,6 +110,17 @@ class MainCameraState extends State<MainCamera> {
         backgroundColor: Colors.blue,
         automaticallyImplyLeading: true,
         actions: [
+          if(_selectedCameraIndex==0)
+            IconButton(
+            icon: Icon(
+              _flashMode == FlashMode.auto
+                  ? Icons.flash_auto
+                  : _flashMode == FlashMode.torch
+                  ? Icons.flash_on
+                  : Icons.flash_off,
+            ),
+            onPressed: _toggleFlashMode,
+          ),
           IconButton(
             icon: const Icon(Icons.help_outline_sharp),
             onPressed: () {
@@ -118,16 +141,15 @@ class MainCameraState extends State<MainCamera> {
             child: _photoClicked && _capturedImage != null
                 ? Center(
               child: Container(
-                padding: const EdgeInsets.all(10.0),
-                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                margin: const EdgeInsets.symmetric(vertical: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
                   boxShadow: const [
                     BoxShadow(
-                      color: Colors.black26,
+                      color: Colors.grey,
                       blurRadius: 10.0,
-                      offset: Offset(0, 5),
+                      offset: Offset(0, 4),
                     ),
                   ],
                 ),
@@ -145,20 +167,20 @@ class MainCameraState extends State<MainCamera> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   return Container(
-                    margin: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.symmetric(vertical: 20),
                     decoration: BoxDecoration(
-                      color: Colors.white, // Optional: Set background color if needed
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.grey,
-                          blurRadius: 10.0, // Optional: Adjust blur radius for shadow effect
-                          offset: Offset(0, 4), // Optional: Adjust offset for shadow effect
+                          blurRadius: 10.0,
+                          offset: Offset(0, 4),
                         ),
                       ],
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0), // Ensure content is clipped to rounded corners
+                      borderRadius: BorderRadius.circular(20.0),
                       child: CameraPreview(_cameraService.cameraController),
                     ),
                   );
@@ -166,7 +188,7 @@ class MainCameraState extends State<MainCamera> {
                   return const Center(child: CircularProgressIndicator());
                 }
               },
-            )
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),
