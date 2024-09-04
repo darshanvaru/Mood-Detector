@@ -1,4 +1,3 @@
-// camera_service.dart
 import 'package:camera/camera.dart';
 
 class CameraService {
@@ -16,9 +15,8 @@ class CameraService {
     initializeControllerFuture = _cameraController.initialize();
   }
 
-  void setFlashMode(FlashMode flashMode) {}ePhoto() async {
-    await initializeControllerFuture;
-    return _cameraController.takePicture();
+  void setFlashMode(FlashMode flashMode) {
+    _cameraController.setFlashMode(flashMode);
   }
 
   Future<XFile> capturePhoto() async {

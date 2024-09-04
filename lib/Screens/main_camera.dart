@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,10 +49,23 @@ class MainCameraState extends State<MainCamera> {
   Future<void> _capturePhoto() async {
     try {
       final image = await _cameraService.capturePhoto();
-      setState(() {
-        _capturedImage = image;
-        _photoClicked = true;
-      });
+
+      if (_selectedCameraIndex == 1) {  // Assuming 1 is the index for the front camera
+        // Apply horizontal flip for front camera images
+        final bytes = await image.readAsBytes();
+        final flippedImage = await _flipImageHorizontally(bytes);
+
+        // Save or use the flipped image
+        setState(() {
+          _capturedImage = XFile.fromData(flippedImage);
+          _photoClicked = true;
+        });
+      } else {
+        setState(() {
+          _capturedImage = image;
+          _photoClicked = true;
+        });
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -60,6 +76,21 @@ class MainCameraState extends State<MainCamera> {
         );
       }
     }
+  }
+
+  Future<Uint8List> _flipImageHorizontally(Uint8List imageBytes) async {
+    final image = await decodeImageFromList(imageBytes);
+    final recorder = PictureRecorder();
+    final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(image.width.toDouble(), image.height.toDouble())));
+
+    final paint = Paint();
+    final matrix = Matrix4.identity()..translate(image.width.toDouble())..scale(-1.0, 1.0); // Flip horizontally
+    canvas.drawImage(image, Offset.zero, paint);
+    canvas.transform(matrix.storage);
+
+    final flippedImage = await recorder.endRecording().toImage(image.width, image.height);
+    final byteData = await flippedImage.toByteData(format: ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
   }
 
   Future<void> _pickFromGallery() async {
