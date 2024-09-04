@@ -15,8 +15,10 @@ class CameraService {
     initializeControllerFuture = _cameraController.initialize();
   }
 
-  void setFlashMode(FlashMode flashMode) {
-    _cameraController.setFlashMode(flashMode);
+  Future<void> setFlashMode(FlashMode mode) async {
+    if (cameraController.value.isInitialized) {
+      await cameraController.setFlashMode(mode);
+    }
   }
 
   Future<XFile> capturePhoto() async {
