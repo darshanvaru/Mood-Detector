@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  camera: ^0.10.0+3
+  camera: ^0.10.0
   image: ^3.0.0
   lottie: ^2.2.0
   emailjs: ^0.0.1
@@ -26,5 +26,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/animation.json
     - assets/portrait.png
     - assets/icon.png
