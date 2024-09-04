@@ -8,7 +8,7 @@ class CameraHelpDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: const Text(
-        'Please ensure you are in a well-lit environment for taking a photo. '
+            'Please ensure you are in a well-lit environment for taking a photo. '
             'Make sure your face is clearly visible. '
             'If possible, then remove goggles if there is any.\n\n'
             'You can visit the Guide page from the home screen for more information.',

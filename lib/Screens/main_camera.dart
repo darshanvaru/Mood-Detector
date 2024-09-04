@@ -43,10 +43,6 @@ class MainCameraState extends State<MainCamera> {
     });
   }
 
-  bool _isFrontCamera() {
-    return cameras![_selectedCameraIndex].lensDirection == CameraLensDirection.front;
-  }
-
   Future<void> _capturePhoto() async {
     try {
       final image = await _cameraService.capturePhoto();
@@ -122,8 +118,8 @@ class MainCameraState extends State<MainCamera> {
             child: _photoClicked && _capturedImage != null
                 ? Center(
               child: Container(
-                padding: const EdgeInsets.all(10.0), // Adjust padding for the floating effect
-                margin: const EdgeInsets.symmetric(horizontal: 20.0), // Adjust margin for side spacing
+                padding: const EdgeInsets.all(10.0),
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
@@ -148,12 +144,29 @@ class MainCameraState extends State<MainCamera> {
               future: _cameraService.initializeFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_cameraService.cameraController);
+                  return Container(
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Optional: Set background color if needed
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 10.0, // Optional: Adjust blur radius for shadow effect
+                          offset: Offset(0, 4), // Optional: Adjust offset for shadow effect
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0), // Ensure content is clipped to rounded corners
+                      child: CameraPreview(_cameraService.cameraController),
+                    ),
+                  );
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }
               },
-            ),
+            )
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),
