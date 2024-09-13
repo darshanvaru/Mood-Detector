@@ -50,8 +50,7 @@ class MainCameraState extends State<MainCamera> {
     try {
       final image = await _cameraService.capturePhoto();
 
-      if (_selectedCameraIndex == 1) {  // Assuming 1 is the index for the front camera
-        // Apply horizontal flip for front camera images
+      if (_selectedCameraIndex == 1) {
         final bytes = await image.readAsBytes();
         final flippedImage = await _flipImageHorizontally(bytes);
 

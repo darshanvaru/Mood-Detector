@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'Screens/home_page.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  // Ensure Flutter bindings are initialized
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Run the app
+  runApp(MyApp());
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

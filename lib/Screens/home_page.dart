@@ -135,7 +135,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   height: 110,
                   child: FloatingActionButton(
                     onPressed: () {
-                      _togglePhotoClicked(); // This toggles the _photoClicked state
+                      _togglePhotoClicked();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
