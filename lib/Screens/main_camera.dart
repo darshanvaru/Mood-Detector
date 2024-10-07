@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 import '../Widgets/photo_clicked_widget.dart';
 import '../Widgets/camera_help_dialog.dart';
