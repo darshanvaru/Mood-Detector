@@ -80,17 +80,19 @@ class MainCameraState extends State<MainCamera> {
   Future<Uint8List> _flipImageHorizontally(Uint8List imageBytes) async {
     final image = await decodeImageFromList(imageBytes);
     final recorder = PictureRecorder();
-    final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(image.width.toDouble(), image.height.toDouble())));
+    final canvas = Canvas(recorder, Rect.fromPoints(const Offset(0, 0), Offset(image.width.toDouble(), image.height.toDouble())));
 
     final paint = Paint();
     final matrix = Matrix4.identity()..translate(image.width.toDouble())..scale(-1.0, 1.0); // Flip horizontally
+
+    canvas.transform(matrix.storage); // Move the transformation before drawing
     canvas.drawImage(image, Offset.zero, paint);
-    canvas.transform(matrix.storage);
 
     final flippedImage = await recorder.endRecording().toImage(image.width, image.height);
     final byteData = await flippedImage.toByteData(format: ImageByteFormat.png);
     return byteData!.buffer.asUint8List();
   }
+
 
   Future<void> _pickFromGallery() async {
     final picker = ImagePicker();
