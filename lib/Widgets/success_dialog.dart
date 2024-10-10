@@ -24,7 +24,9 @@ class SuccessDialogState extends State<SuccessDialog>
 
     _controller.forward().then((_) {
       Future.delayed(const Duration(milliseconds: 1000), () {
-        Navigator.of(context).pop();
+        if(mounted) {
+          Navigator.of(context).pop();
+        }
       });
     });
   }
